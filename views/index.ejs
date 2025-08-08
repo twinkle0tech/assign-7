@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include("partials/header") %>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <form action="/add" method="POST" >
+      <input type="text" name="task" placeholder="Enter a new task">
+      <select name="priority">
+        <option value="Later">Later</option>
+        <option value="Soon">Soon</option>
+        <option value="Urgent">Urgent</option>
+      </select>
+      <button type="submit">Add</button>
+    </form>
+
+    <h2>Tasks</h2>
+    <div class="filter">
+      <label>Filter:</label>
+      <select id="priorityFilter" onchange="filterTasks()">
+        <option value="All">All</option>
+        <option value="Later">Later</option>
+        <option value="Soon">Soon</option>
+        <option value="Urgent">Urgent</option>
+      </select>
+    </div>
+
+    <ul id="todoList">
+      <% todos.forEach(todo => { %>
+        <li data-priority="<%= todo.priority %>">
+          <form action="/edit/<%= todo.id %>" method="POST">
+            <input type="text" name="newTask" value="<%= todo.task %>">
+            <select name="newPriority">
+              <option <%= todo.priority === "Later" ? "selected" : "" %>>Later</option>
+              <option <%= todo.priority === "Soon" ? "selected" : "" %>> Soon</option>
+              <option <%= todo.priority === "Urgent" ? "selected" : "" %>>Urgent</option>
+            </select>
+            <button type="submit">Save</button>
+          </form>
+          <form action="/delete/<%= todo.id %>" method="POST">
+            <button type="submit">Delete</button>
+          </form>
+        </li>
+      <% }) %>
+    </ul>
+  </div>
+
+  <%- include("partials/footer") %>
+  <script src="/js/script.js"></script>
+</body>
+</html>
