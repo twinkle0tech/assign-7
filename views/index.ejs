@@ -6,9 +6,10 @@
 </head>
 <body>
   <div class="container">
-    <form action="/add" method="POST" >
-      <input type="text" name="task" placeholder="Enter a new task">
-      <select name="priority">
+    <form action="/add" method="POST" id="addTaskForm">
+      <input type="text" name="task" placeholder="Enter a new task" required minlength="1" maxlength="100">
+      <select name="priority" required>
+        <option value="">Select Priority</option>
         <option value="Later">Later</option>
         <option value="Soon">Soon</option>
         <option value="Urgent">Urgent</option>
@@ -30,9 +31,10 @@
     <ul id="todoList">
       <% todos.forEach(todo => { %>
         <li data-priority="<%= todo.priority %>">
-          <form action="/edit/<%= todo.id %>" method="POST">
-            <input type="text" name="newTask" value="<%= todo.task %>">
-            <select name="newPriority">
+          <form action="/edit/<%= todo.id %>" method="POST" class="editForm">
+            <input type="text" name="newTask" value="<%= todo.task %>" required minlength="1" maxlength="100">
+            <select name="newPriority" required>
+              <option value="">Select Priority</option>
               <option <%= todo.priority === "Later" ? "selected" : "" %>>Later</option>
               <option <%= todo.priority === "Soon" ? "selected" : "" %>> Soon</option>
               <option <%= todo.priority === "Urgent" ? "selected" : "" %>>Urgent</option>
